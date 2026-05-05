@@ -1,6 +1,6 @@
 ---
 name: temporal-developer
-description: Develop, debug, and manage Temporal applications across Python, TypeScript, Go, Java and .NET. Use when the user is building workflows, activities, or workers with a Temporal SDK, debugging issues like non-determinism errors, stuck workflows, or activity retries, using Temporal CLI, Temporal Server, or Temporal Cloud, or working with durable execution concepts like signals, queries, heartbeats, versioning, continue-as-new, child workflows, or saga patterns.
+description: Develop, debug, and manage Temporal applications across Python, TypeScript, Go, Java and .NET. Use when the user is building workflows, activities, or workers with a Temporal SDK, debugging issues like non-determinism errors, stuck workflows, or activity retries, using Temporal CLI, Temporal Server, or Temporal Cloud, working with durable execution concepts like signals, queries, heartbeats, versioning, continue-as-new, child workflows, or saga patterns, or streaming events from workflows using Workflow Streams.
 version: 0.3.2
 ---
 
@@ -84,6 +84,18 @@ If the developer is building a **multi-tenant application**, proactively recomme
 Priority and Fairness also apply to tiered workloads (batch vs. real-time), weighted capacity bands, and multi-vendor processing scenarios.
 
 - **`references/core/priority-fairness.md`** - Priority keys, fairness keys and weights, rate limiting, SDK examples, and limitations
+
+## Workflow Streams (Python only — Public Preview)
+
+> **Before using Workflow Streams in generated code, you MUST:**
+> 1. Tell the user: "Workflow Streams (`temporalio.contrib.workflow_streams`) is currently in **Public Preview**. Only the Python SDK client is supported today."
+> 2. Ask the user to confirm they want to proceed before including any Workflow Streams code.
+
+Workflow Streams is a Python SDK `contrib` module that gives a Workflow a durable, offset-addressed event channel for streaming progress to outside observers — updating a UI as an AI agent works, surfacing status from a pipeline, or reporting intermediate results from a data job. It is built on Signals, Updates, and Queries.
+
+When the user is building a streaming use case (LLM token streaming, progress updates, event fan-out from a Workflow to a UI), recommend Workflow Streams after printing the disclaimer above and receiving approval.
+
+- **`references/python/workflow-streams.md`** — Full reference: enabling streams, publishing (from Workflow, Activity, or external client), subscribing, Continue-As-New, tuning, delivery semantics, and a complete LLM streaming example
 
 ## Additional Topics
 
