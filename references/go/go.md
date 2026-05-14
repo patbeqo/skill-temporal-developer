@@ -250,5 +250,6 @@ See `references/go/testing.md` for info on writing tests.
 - **`references/go/testing.md`** - TestWorkflowEnvironment, time-skipping, activity mocking
 - **`references/go/advanced-features.md`** - Schedules, worker tuning, and more
 - **`references/go/data-handling.md`** - Data converters, payload codecs, encryption
+- **`references/go/payload-validation.md`** - Eager payload/memo size validation (Experimental, v1.43.0+): warning thresholds and the worker opt-out
 - **`references/go/versioning.md`** - Patching API (`workflow.GetVersion`), Worker Versioning
 - **`references/go/determinism-protection.md`** - Information on **`workflowcheck`** tool to help statically check for determinism issues.
