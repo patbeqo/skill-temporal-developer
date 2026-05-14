@@ -1,7 +1,7 @@
 # TypeScript SDK Buffered Metrics & Custom Metrics
 
 > [!NOTE]
-> The Metric API and buffered metrics are experimental in the TypeScript SDK; the APIs may change. <!-- typedoc: common.MetricMeter (description), worker.MetricsBuffer (description) -->
+> The Metric API and buffered metrics are experimental in the TypeScript SDK; the APIs may change.
 
 This reference covers two related TypeScript SDK features:
 
@@ -23,18 +23,18 @@ For the standard Prometheus / OTel collector export paths, see `references/types
 
 ## Instrument types
 
-The `MetricMeter` interface exposes four instrument types: <!-- typedoc: common.MetricMeter -->
+The `MetricMeter` interface exposes four instrument types:
 
 | Method | Returns | `kind` literal | Use for |
 |---|---|---|---|
-| `createCounter(name, unit?, description?)` | `MetricCounter` | `"counter"` | Monotonically increasing totals (events, requests). <!-- typedoc: common.MetricCounter --> |
-| `createUpDownCounter(name, unit?, description?)` | `MetricUpDownCounter` | `"up-down-counter"` | Values that go up and down (in-flight requests, queue depth, active connections). <!-- typedoc: common.MetricUpDownCounter --> |
-| `createGauge(name, valueType?, unit?, description?)` | `MetricGauge` | `"gauge"` | Instantaneous measurements set to an absolute value. <!-- typedoc: common.MetricGauge --> |
-| `createHistogram(name, valueType?, unit?, description?)` | `MetricHistogram` | `"histogram"` | Distributions of non-negative values. <!-- typedoc: common.MetricHistogram --> |
+| `createCounter(name, unit?, description?)` | `MetricCounter` | `"counter"` | Monotonically increasing totals (events, requests).  |
+| `createUpDownCounter(name, unit?, description?)` | `MetricUpDownCounter` | `"up-down-counter"` | Values that go up and down (in-flight requests, queue depth, active connections).  |
+| `createGauge(name, valueType?, unit?, description?)` | `MetricGauge` | `"gauge"` | Instantaneous measurements set to an absolute value.  |
+| `createHistogram(name, valueType?, unit?, description?)` | `MetricHistogram` | `"histogram"` | Distributions of non-negative values.  |
 
-`MetricCounter` and `MetricUpDownCounter` always record integers (`valueType: "int"`). Only `createGauge` and `createHistogram` accept a `valueType` parameter (`"int" | "float"`). <!-- typedoc: common.MetricCounter, common.MetricUpDownCounter, common.NumericMetricValueType -->
+`MetricCounter` and `MetricUpDownCounter` always record integers (`valueType: "int"`). Only `createGauge` and `createHistogram` accept a `valueType` parameter (`"int" | "float"`).
 
-`MetricKind` is `"counter" | "histogram" | "gauge" | "up-down-counter"` — note the hyphenated form. <!-- typedoc: common.MetricKind -->
+`MetricKind` is `"counter" | "histogram" | "gauge" | "up-down-counter"` — note the hyphenated form.
 
 ### Instrument methods
 
@@ -44,15 +44,14 @@ upDownCounter.add(value: number, extraTags?: MetricTags): void  // value may be 
 gauge.set(value: number, extraTags?: MetricTags): void
 histogram.record(value: number, extraTags?: MetricTags): void   // value ≥ 0
 ```
-<!-- typedoc: common.MetricCounter#add, common.MetricUpDownCounter#add, common.MetricGauge#set, common.MetricHistogram#record -->
 
-Every instrument also has `withTags(tags: MetricTags): <SameInstrument>` which returns a clone with permanent extra tags. `MetricTags` is `Record<string, string | number | boolean>`. <!-- typedoc: common.MetricMeter#withTags, common.MetricTags -->
+Every instrument also has `withTags(tags: MetricTags): <SameInstrument>` which returns a clone with permanent extra tags. `MetricTags` is `Record<string, string | number | boolean>`.
 
 ## Accessing the meter
 
 `metricMeter` is the entry point in each runtime context. It is a **property, not a function**.
 
-**Worker / Client process (top-level):** <!-- typedoc: worker.Runtime#metricMeter -->
+**Worker / Client process (top-level):**
 
 ```typescript
 import { Runtime } from '@temporalio/worker';
@@ -64,7 +63,7 @@ tasksInFlight.add(1, { worker: 'payments' });
 tasksInFlight.add(-1, { worker: 'payments' });
 ```
 
-**Inside a Workflow:** <!-- typedoc: workflow namespace#metricMeter -->
+**Inside a Workflow:**
 
 ```typescript
 import { metricMeter } from '@temporalio/workflow';
@@ -77,7 +76,7 @@ export async function chargeWorkflow(orderId: string): Promise<void> {
 
 The workflow `metricMeter` is automatically tagged with workflow context.
 
-**Inside an Activity:** <!-- typedoc: activity namespace#metricMeter -->
+**Inside an Activity:**
 
 ```typescript
 import { metricMeter } from '@temporalio/activity';
@@ -90,13 +89,13 @@ export async function callPaymentGateway(orderId: string): Promise<void> {
 }
 ```
 
-The activity `metricMeter` is automatically tagged with activity context; `ActivityOutboundCallsInterceptor.getMetricTags()` can add custom tags. <!-- typedoc: activity namespace#metricMeter -->
+The activity `metricMeter` is automatically tagged with activity context; `ActivityOutboundCallsInterceptor.getMetricTags()` can add custom tags.
 
-If telemetry is not configured, the meter resolves to `noopMetricMeter` — calls are silently dropped. <!-- typedoc: common namespace#noopMetricMeter -->
+If telemetry is not configured, the meter resolves to `noopMetricMeter` — calls are silently dropped.
 
 ## Buffered metrics
 
-`MetricsBuffer` (exported from `@temporalio/worker`) captures every metric update — both Core-emitted SDK metrics and anything you record through `metricMeter` — into an in-memory queue you drain on your schedule. <!-- typedoc: worker namespace -->
+`MetricsBuffer` (exported from `@temporalio/worker`) captures every metric update — both Core-emitted SDK metrics and anything you record through `metricMeter` — into an in-memory queue you drain on your schedule.
 
 ### Setup
 
@@ -111,9 +110,8 @@ Runtime.install({
   },
 });
 ```
-<!-- typedoc: worker.MetricsBuffer, worker.MetricsBufferOptions -->
 
-`MetricsBufferOptions`: <!-- typedoc: worker.MetricsBufferOptions -->
+`MetricsBufferOptions`:
 
 | Option | Type | Default | Notes |
 |---|---|---|---|
@@ -133,7 +131,6 @@ setInterval(() => {
   }
 }, 1_000);
 ```
-<!-- typedoc: worker.Runtime#metricsBuffer, worker.MetricsBuffer#retrieveUpdates -->
 
 `retrieveUpdates()` returns an `ArrayIterator<BufferedMetricUpdate>` containing every event accumulated since the last call.
 
@@ -146,9 +143,8 @@ interface BufferedMetricUpdate {
   value: number;           // delta for counters/up-down-counters; absolute for gauges; sample for histograms
 }
 ```
-<!-- typedoc: worker.BufferedMetricUpdate -->
 
-The SDK reuses `attributes` and `metric` objects across updates for performance, so do not store references — copy what you need before the next call to `retrieveUpdates()`. <!-- typedoc: worker.BufferedMetricUpdate -->
+The SDK reuses `attributes` and `metric` objects across updates for performance, so do not store references — copy what you need before the next call to `retrieveUpdates()`.
 
 Dispatch by `metric.kind`:
 
@@ -163,24 +159,24 @@ switch (update.metric.kind) {
 
 ## Hard constraints
 
-- **Drain on a timer.** If `retrieveUpdates()` is not called regularly, the buffer fills, new updates are dropped, and an error is logged. Size the buffer for your drain interval. <!-- typedoc: worker.MetricsBuffer#retrieveUpdates, worker.MetricsBufferOptions#maxBufferSize -->
-- **Buffered metrics and Prometheus / OTel are exclusive.** The `metrics` field on `telemetryOptions` is a single transport — install either a `MetricsBuffer` or a `PrometheusMetricsExporter` / `OtelCollectorExporter`, not both. <!-- typedoc: worker.RuntimeOptions, worker.PrometheusMetricsExporter, worker.OtelCollectorExporter -->
-- **`Runtime.install` is once per process.** Configure it before constructing any `Worker` or `Client`. <!-- typedoc: worker.Runtime#install -->
-- **Do not retain `attributes`/`metric` references across iterations.** The SDK mutates the same objects between events. Copy fields you need to keep. <!-- typedoc: worker.BufferedMetricUpdate -->
-- **Counters and up-down-counters are int-only.** Pass integer values to `add`; floats are truncated to the declared `valueType`. <!-- typedoc: common.MetricCounter, common.MetricUpDownCounter -->
-- **`metricMeter` is a property.** Access via `Runtime.instance().metricMeter` or `import { metricMeter } from '@temporalio/workflow' | '@temporalio/activity'`. There is no `RuntimeMetricMeter` exported type. <!-- typedoc: worker.Runtime#metricMeter, workflow namespace#metricMeter, activity namespace#metricMeter -->
+- **Drain on a timer.** If `retrieveUpdates()` is not called regularly, the buffer fills, new updates are dropped, and an error is logged. Size the buffer for your drain interval.
+- **Buffered metrics and Prometheus / OTel are exclusive.** The `metrics` field on `telemetryOptions` is a single transport — install either a `MetricsBuffer` or a `PrometheusMetricsExporter` / `OtelCollectorExporter`, not both.
+- **`Runtime.install` is once per process.** Configure it before constructing any `Worker` or `Client`.
+- **Do not retain `attributes`/`metric` references across iterations.** The SDK mutates the same objects between events. Copy fields you need to keep.
+- **Counters and up-down-counters are int-only.** Pass integer values to `add`; floats are truncated to the declared `valueType`.
+- **`metricMeter` is a property.** Access via `Runtime.instance().metricMeter` or `import { metricMeter } from '@temporalio/workflow' | '@temporalio/activity'`. There is no `RuntimeMetricMeter` exported type.
 
 ## Common mistakes
 
 | Mistake | Fix |
 |---|---|
-| `meter.createUpDownCounter(name, 'int', ...)` | Counters/up-down-counters take no `valueType` — only `(name, unit?, description?)`. <!-- typedoc: common.MetricMeter#createUpDownCounter --> |
-| Using `"upDownCounter"` as the kind literal | The literal is `"up-down-counter"`. <!-- typedoc: common.MetricKind --> |
-| `Runtime.instance().retrieveBufferedMetrics()` | `Runtime.instance().metricsBuffer?.retrieveUpdates()`. <!-- typedoc: worker.Runtime, worker.MetricsBuffer#retrieveUpdates --> |
-| `import { MetricsBuffer } from '@temporalio/common'` | Import from `@temporalio/worker`. <!-- typedoc: worker namespace --> |
-| Calling `meter.createCounter()` without `Runtime.install` | Without telemetry configured, `metricMeter` is `noopMetricMeter` and all updates are dropped silently. <!-- typedoc: common namespace#noopMetricMeter --> |
-| Storing `update.attributes` from a previous iteration | Objects are reused — copy before the next `retrieveUpdates` call. <!-- typedoc: worker.BufferedMetricUpdate --> |
-| Configuring both `prometheus` and a `MetricsBuffer` | One transport per `telemetryOptions.metrics`. <!-- typedoc: worker.RuntimeOptions --> |
+| `meter.createUpDownCounter(name, 'int', ...)` | Counters/up-down-counters take no `valueType` — only `(name, unit?, description?)`.  |
+| Using `"upDownCounter"` as the kind literal | The literal is `"up-down-counter"`.  |
+| `Runtime.instance().retrieveBufferedMetrics()` | `Runtime.instance().metricsBuffer?.retrieveUpdates()`.  |
+| `import { MetricsBuffer } from '@temporalio/common'` | Import from `@temporalio/worker`.  |
+| Calling `meter.createCounter()` without `Runtime.install` | Without telemetry configured, `metricMeter` is `noopMetricMeter` and all updates are dropped silently.  |
+| Storing `update.attributes` from a previous iteration | Objects are reused — copy before the next `retrieveUpdates` call.  |
+| Configuring both `prometheus` and a `MetricsBuffer` | One transport per `telemetryOptions.metrics`.  |
 
 ## Worked example: forward to StatsD with an UpDownCounter
 
@@ -218,4 +214,4 @@ inFlight.add(1, { region: 'us-east' });
 // ...
 inFlight.add(-1, { region: 'us-east' });
 ```
-<!-- typedoc: worker.MetricsBuffer, worker.Runtime#metricMeter, common.MetricMeter#createUpDownCounter, common.MetricUpDownCounter#add -->
+
