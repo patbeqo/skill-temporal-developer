@@ -263,6 +263,7 @@ See `references/java/testing.md` for info on writing tests.
 - **`references/java/advanced-features.md`** - Schedules, worker tuning, and more
 - **`references/java/data-handling.md`** - Data converters, Jackson, payload encryption
 - **`references/java/versioning.md`** - Patching API, workflow type versioning, Worker Versioning
+- **`references/java/nexus.md`** - Java SDK Nexus APIs: `@Service`/`@ServiceImpl`, `OperationHandler.sync`, `WorkflowRunOperation.fromWorkflowMethod`, `Workflow.newNexusServiceStub`, cancellation
 
 ### Java Integrations
 

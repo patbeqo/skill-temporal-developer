@@ -182,3 +182,4 @@ See `references/typescript/testing.md` for info on writing tests.
 - **`references/typescript/data-handling.md`** - Data converters, payload encryption, etc.
 - **`references/typescript/versioning.md`** - Patching API, workflow type versioning, Worker Versioning
 - **`references/typescript/determinism-protection.md`** - V8 sandbox and bundling
+- **`references/typescript/nexus.md`** - TypeScript SDK Nexus APIs (Public Preview): Service contracts, sync/async Operation handlers, caller-side Nexus client, deadline propagation, cancellation

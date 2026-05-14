@@ -252,3 +252,4 @@ See `references/go/testing.md` for info on writing tests.
 - **`references/go/data-handling.md`** - Data converters, payload codecs, encryption
 - **`references/go/versioning.md`** - Patching API (`workflow.GetVersion`), Worker Versioning
 - **`references/go/determinism-protection.md`** - Information on **`workflowcheck`** tool to help statically check for determinism issues.
+- **`references/go/nexus.md`** - Go SDK Nexus APIs: `nexus.NewSyncOperation`, `temporalnexus.NewWorkflowRunOperation`, `workflow.NewNexusClient`, timeouts, cancellation
