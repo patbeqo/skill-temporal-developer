@@ -26,5 +26,4 @@ jobs:
     with:
       # On workflow_dispatch this is the chosen bump; empty on push events.
       bump: ${{ inputs.bump }}
-      # Override the whitelist only if this skill has extra paths to include:
-      # includes: "SKILL.md agents references scripts"
+      includes: "SKILL.md agents references scripts skills"
