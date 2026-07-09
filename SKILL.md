@@ -74,7 +74,7 @@ Check if `temporal` CLI is installed. If not, follow the instructions at `refere
   - Language-specific info at `references/{your_language}/versioning.md`
 - **`references/core/standalone-activities.md`** - Standalone Activities: run an Activity directly from a Client without a Workflow (Public Preview)
   - Language-specific info at `references/{your_language}/standalone-activities.md`
-- **`skills/determinism-review/SKILL.md`** - Step-by-step determinism review of workflow code diffs. Load when the user asks to check changes for non-determinism, replay safety, or versioning needs, or when committing/pushing/deploying changes that touch workflow code. Covers forbidden APIs, command sequence analysis, replay test execution, and versioning recommendations.
+- For determinism review of workflow code diffs (forbidden APIs, command sequence analysis, replay test scaffolding, versioning), see the **determinism-review** skill.
 - **`references/core/troubleshooting.md`** - Decision trees, recovery procedures
 - **`references/core/error-reference.md`** - Common error types, workflow status reference
 - **`references/core/interactive-workflows.md`** - Testing signals, updates, queries
