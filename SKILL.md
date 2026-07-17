@@ -8,7 +8,7 @@ version: 0.2.0
 
 ## Overview
 
-Temporal is a durable execution platform that makes workflows survive failures automatically. This skill provides guidance for building Temporal applications in Python, TypeScript, Go, and Java.
+Temporal is a durable execution platform that supports workflows, standalone activities, and Nexus services. This skill provides guidance for building Temporal applications in Python, TypeScript, Go, and Java.
 
 ## Core Architecture
 
@@ -18,16 +18,17 @@ The **Temporal Cluster** is the central orchestration backend. It maintains thre
 - **Self-hosted** — you deploy and manage the Temporal server and its dependencies (e.g., database) in your own infrastructure for production use.
 - **Temporal Cloud** — a fully managed production service operated by Temporal. No cluster infrastructure to manage.
 
-**Workers** are long-running processes that you run and manage. They poll Task Queues for work and execute your code. You might run a single Worker process on one machine during development, or run many Worker processes across a large fleet of machines in production. Each Worker hosts two types of code:
+**Workers** are long-running processes that you run and manage. They poll Task Queues for work and execute your code. You might run a single Worker process on one machine during development, or run many Worker processes across a large fleet of machines in production. Each Worker can host three types of code:
 
 - **Workflow Definitions** — durable, deterministic functions that orchestrate work. These must not have side effects.
-- **Activity Implementations** — non-deterministic operations (API calls, file I/O, etc.) that can fail and be retried.
+- **Activity Implementations** — side-effectful (API calls, file I/O, etc.) and/or compute intensive operations that can fail and be retried.
+- **Nexus services** — collections of Nexus operations; used to expose workflow- or activity-backed functionality behind an asynchronous RPC interface.
 
-Workers communicate with the Cluster via a poll/complete loop: they poll a Task Queue for tasks, execute the corresponding Workflow or Activity code, and report results back.
+Workers communicate with the Cluster via a poll/complete loop: they poll a Task Queue for tasks, execute the corresponding Workflow, Activity, or Nexus code, and report results back.
 
 ## History Replay: Why Determinism Matters
 
-Temporal achieves durability through **history replay**:
+Workflow workers achieve durability through **history replay**:
 
 1. **Initial Execution** - Worker runs workflow, generates Commands, stored as Events in history
 2. **Recovery** - On restart/failure, Worker re-executes workflow from beginning
@@ -36,11 +37,11 @@ Temporal achieves durability through **history replay**:
 
 **If Commands don't match Events = Non-determinism Error = Workflow blocked**
 
-| Workflow Code | Command | Event |
-|--------------|---------|-------|
-| Execute activity | `ScheduleActivityTask` | `ActivityTaskScheduled` |
-| Sleep/timer | `StartTimer` | `TimerStarted` |
-| Child workflow | `StartChildWorkflowExecution` | `ChildWorkflowExecutionStarted` |
+| Workflow Code    | Command                       | Event                           |
+| ---------------- | ----------------------------- | ------------------------------- |
+| Execute activity | `ScheduleActivityTask`        | `ActivityTaskScheduled`         |
+| Sleep/timer      | `StartTimer`                  | `TimerStarted`                  |
+| Child workflow   | `StartChildWorkflowExecution` | `ChildWorkflowExecutionStarted` |
 
 See `references/core/determinism.md` for detailed explanation.
 
@@ -77,33 +78,33 @@ Once you've downloaded the file, extract the downloaded archive and add the temp
 ### Read All Relevant References
 
 1. First, read the getting started guide for the language you are working in:
-    - Python -> read `references/python/python.md`
-    - TypeScript -> read `references/typescript/typescript.md`
-    - Java -> read `references/java/java.md`
-    - Go -> read `references/go/go.md`
+   - Python -> read `references/python/python.md`
+   - TypeScript -> read `references/typescript/typescript.md`
+   - Java -> read `references/java/java.md`
+   - Go -> read `references/go/go.md`
 2. Second, read appropriate `core` and language-specific references for the task at hand.
 
-
 ## Primary References
+
 - **`references/core/determinism.md`** - Why determinism matters, replay mechanics, basic concepts of activities
-    + Language-specific info at `references/{your_language}/determinism.md`
+  - Language-specific info at `references/{your_language}/determinism.md`
 - **`references/core/patterns.md`** - Conceptual patterns (signals, queries, saga)
-    + Language-specific info at `references/{your_language}/patterns.md`
+  - Language-specific info at `references/{your_language}/patterns.md`
 - **`references/core/gotchas.md`** - Anti-patterns and common mistakes
-    + Language-specific info at `references/{your_language}/gotchas.md`
+  - Language-specific info at `references/{your_language}/gotchas.md`
 - **`references/core/versioning.md`** - Versioning strategies and concepts - how to safely change workflow code while workflows are running
-    + Language-specific info at `references/{your_language}/versioning.md`
+  - Language-specific info at `references/{your_language}/versioning.md`
 - **`references/core/troubleshooting.md`** - Decision trees, recovery procedures
 - **`references/core/error-reference.md`** - Common error types, workflow status reference
 - **`references/core/interactive-workflows.md`** - Testing signals, updates, queries
 - **`references/core/dev-management.md`** - Dev cycle & management of server and workers
 - **`references/core/ai-patterns.md`** - AI/LLM pattern concepts
-    + Language-specific info at `references/{your_language}/ai-patterns.md`, if available. Currently Python only.
+  - Language-specific info at `references/{your_language}/ai-patterns.md`, if available. Currently Python only.
 
 ## Additional Topics
+
 - **`references/{your_language}/observability.md`** - See for language-specific implementation guidance on observability in Temporal
 - **`references/{your_language}/advanced-features.md`** - See for language-specific guidance on advanced Temporal features and language-specific features
-
 
 ## Feedback
 
