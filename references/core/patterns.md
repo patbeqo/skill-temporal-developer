@@ -477,3 +477,4 @@ Activity calls heartbeat()
 | Long-lived stateful entity | Entity Workflow |
 | Safe retries/replays | Idempotency |
 | Low-latency short operations | Local Activities |
+| Run one background job (job queue) | Standalone Activity — see `references/core/job-queue.md` |
