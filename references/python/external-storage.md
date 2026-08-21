@@ -41,9 +41,9 @@ Create the driver, attach it to a `DataConverter`, and pass the converter to bot
 import aioboto3
 import dataclasses
 from temporalio.client import Client, ClientConfig
-from temporalio.contrib.aioboto3 import new_aioboto3_client
-from temporalio.converter import DataConverter
-from temporalio.external_storage import ExternalStorage, S3StorageDriver
+from temporalio.contrib.aws.s3driver import S3StorageDriver
+from temporalio.contrib.aws.s3driver.aioboto3 import new_aioboto3_client
+from temporalio.converter import DataConverter, ExternalStorage
 from temporalio.worker import Worker
 
 session = aioboto3.Session(profile_name=AWS_PROFILE, region_name=AWS_REGION)
@@ -95,7 +95,10 @@ When you register more than one driver, you **must** supply a `driver_selector` 
 - Return `None` from the selector to keep a specific payload inline in Event History.
 
 ```python
-preferred_driver = S3StorageDriver(client=s3_client, bucket="my-bucket")
+preferred_driver = S3StorageDriver(
+    client=new_aioboto3_client(s3_client),
+    bucket="my-bucket",
+)
 legacy_driver = LegacyStorageDriver()
 
 ExternalStorage(
@@ -124,7 +127,7 @@ import uuid
 from typing import Sequence
 
 from temporalio.api.common.v1 import Payload
-from temporalio.external_storage import (
+from temporalio.converter import (
     StorageDriver,
     StorageDriverClaim,
     StorageDriverRetrieveContext,
@@ -205,7 +208,7 @@ Endpoints exposed when storage drivers are configured:
 
 **Don't point a Worker's remote codec at the storage-aware handler** — it runs the full encode-store-encode and decode-retrieve-decode pipeline. Run a separate non-storage codec HTTP handler for remote codecs, configured with the same codecs.
 
-The [Python Codec Server sample](https://github.com/temporalio/samples-python/blob/main/encryption/codec_server.py) demonstrates a Codec Server implementation.
+The [Python External Storage sample](https://github.com/temporalio/samples-python/tree/main/external_storage) demonstrates a storage-aware Codec Server implementation.
 
 ## Lifecycle management
 
