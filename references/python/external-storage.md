@@ -5,13 +5,13 @@
 
 ## What this is
 
-External Storage offloads Payloads to an external store (e.g. Amazon S3) and stores a small reference token in the Event History instead — the **claim check pattern**.
+External Storage uses the **claim check pattern**: it offloads each Payload to an external store (e.g. Amazon S3), records a small reference token (the "claim check") in Event History, and uses that token to retrieve the Payload when needed. The SDK handles storage and retrieval transparently.
 
 ## When to use it
 
 - A Workflow input, Activity input, Activity result, or Workflow result will exceed the **2 MB** per-payload limit (fixed at 2 MB on Temporal Cloud; configurable on self-hosted only).
 - Long Event Histories degrade Workflow Task latency (e.g. AI agent conversations growing per turn).
-- The user wants payload data to live in storage **they** control. Set the size threshold to externalize all payloads.
+- The user wants payload data to live in storage **they** control. Set `payload_size_threshold=0` to externalize all payloads.
 - The user is migrating from self-hosted (with a larger configured limit) to Temporal Cloud.
 
 ## Where it sits in the pipeline
