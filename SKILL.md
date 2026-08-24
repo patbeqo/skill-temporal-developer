@@ -9,7 +9,7 @@ description: Develop, debug, and manage Temporal applications across Python, Typ
   user mentions "run a Temporal workflow from the CLI", "start a dev server", "run
   temporal server start-dev", "temporal workflow start", "temporal workflow execute",
   "temporal workflow signal", "temporal workflow query", "temporal workflow update".
-version: 0.7.1
+version: 0.7.2
 ---
 
 # Skill: temporal-developer
