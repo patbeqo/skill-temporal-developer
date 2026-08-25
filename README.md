@@ -45,3 +45,5 @@ Appropriately adjust the installation directory based on your coding agent.
 <!-- SYNC-PROBE-20260825-r4 README should not overlay -->
 
 <!-- SYNC-PROBE-20260825-r7 README should not overlay -->
+
+<!-- SYNC-PROBE-20260825-r9 README should not overlay -->
