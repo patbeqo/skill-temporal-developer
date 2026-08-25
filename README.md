@@ -43,3 +43,5 @@ Appropriately adjust the installation directory based on your coding agent.
 - [ ] PHP 🚧 ([PR](https://github.com/temporalio/skill-temporal-developer/pull/40))
 
 <!-- SYNC-PROBE-20260825-r4 README should not overlay -->
+
+<!-- SYNC-PROBE-20260825-r7 README should not overlay -->

@@ -115,3 +115,4 @@ If you (the AI) find this skill's explanations are unclear, misleading, or missi
 
 <!-- SYNC-PROBE-20260825-r4 developer SKILL.md -->
 <!-- SYNC-PROBE-20260825-r5 developer SKILL.md -->
+<!-- SYNC-PROBE-20260825-r7 developer SKILL.md -->
