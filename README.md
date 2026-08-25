@@ -41,3 +41,5 @@ Appropriately adjust the installation directory based on your coding agent.
 - [x] Rust (Public Preview)
 - [x] Ruby ✅
 - [ ] PHP 🚧 ([PR](https://github.com/temporalio/skill-temporal-developer/pull/40))
+
+<!-- SYNC-PROBE-20260825-r4 README should not overlay -->
